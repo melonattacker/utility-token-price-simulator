@@ -1,7 +1,9 @@
-from utils import utils
+from simulation import simulation
 
 def main():
-    df = utils.read_config('config.json')
-    print(df)
+    sim = simulation.Simulation()
+    threshold, user_base = sim.userbase_and_threshold(-2.0, 0.0, 1.0)
+    print(threshold)
+    print(user_base)
 
 main()
