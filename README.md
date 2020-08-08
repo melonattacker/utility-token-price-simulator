@@ -1,1 +1,1 @@
-# utility-token-price-simulator
+# utility token price simulator
