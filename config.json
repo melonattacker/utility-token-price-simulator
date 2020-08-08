@@ -1,0 +1,13 @@
+{
+    "beta": 0.3,
+    "interest_rate": 0.05,
+    "chi": 1.0,
+    "price": {
+        "average": 0.01,
+        "volatility": 0.3
+    },
+    "productivity": {
+        "average": 0.02,
+        "volatility": 2
+    }
+}
