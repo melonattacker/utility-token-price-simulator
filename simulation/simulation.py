@@ -2,12 +2,14 @@ import numpy as np
 import math
 import random
 from utils import utils
+from simulation import generator
 from scipy import integrate
 
 class Simulation:
     def __init__(self):
         self.df = utils.read_config('config.json')
         self.productivities = np.zeros(self.df['period']) 
+        self.utilities = np.zeros((self.df['period'], self.df['agents']))
 
     def calc_userbase_and_threshold(self, threshold: float, user_base: float, productivity: float):
         beta: float = self.df['beta']
@@ -37,6 +39,24 @@ class Simulation:
         self.productivities[0] = self.df['productivity']['initial_value']
         dt: float = 1.0 / period
 
+        # brown motion
         for i in range(1, period):
-            self.productivities[i] = self.productivities[i - 1] * math.exp((pro_mu - (pro_sigma ** 2) / 2) * dt + pro_sigma * math.sqrt(dt) * random.gauss(0,1))
+            self.productivities[i] = generator.generate_brown_motion(self.productivities[i-1], pro_mu, pro_sigma, dt, random.gauss(0,1))
+
+    def calc_utility(self):
+        period: int = self.df['period']
+        agents: int = self.df['agents']
+        utility_mu: float = self.df['utility']['mu']
+        utility_sigma: float = self.df['utility']['sigma']
+
+        dt: float = 1.0 / period
+
+        # generate initial utility of agents
+        ini_util_generator = generator.initial_utility_gen(a=-20.0, b=20.0)
+        self.utilities[0] = ini_util_generator.rvs(mu=utility_mu, sigma=utility_sigma, size=agents)
+
+        # generate utility of agents
+        for i in range(0, agents):
+            for j in range(1, period):
+                self.utilities[i][j] = generator.generate_ornstein_uhlenbeck_process(self.utilities[i][j-1], utility_mu, utility_sigma, dt, random.gauss(0,1))
 
