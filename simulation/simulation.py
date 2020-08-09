@@ -1,13 +1,15 @@
 import numpy as np
 import math
+import random
 from utils import utils
 from scipy import integrate
 
 class Simulation:
     def __init__(self):
         self.df = utils.read_config('config.json')
+        self.productivities = np.zeros(self.df['period']) 
 
-    def userbase_and_threshold(self, threshold: float, user_base: float, productivity: float):
+    def calc_userbase_and_threshold(self, threshold: float, user_base: float, productivity: float):
         beta: float = self.df['beta']
         chi: float = self.df['chi']
         interest_rate: float = self.df['interest_rate']
@@ -25,4 +27,16 @@ class Simulation:
         if abs(new_threshold - threshold) < 0.0000000000000000000001:
             return new_threshold, new_userbase
         else:
-            return self.userbase_and_threshold(new_threshold, new_userbase, productivity)
+            return self.calc_userbase_and_threshold(new_threshold, new_userbase, productivity)
+
+    def calc_productivity(self):
+        period: int = self.df['period']
+        pro_mu: float = self.df['productivity']['mu']
+        pro_sigma: float = self.df['productivity']['sigma']
+
+        self.productivities[0] = self.df['productivity']['initial_value']
+        dt: float = 1.0 / period
+
+        for i in range(1, period):
+            self.productivities[i] = self.productivities[i - 1] * math.exp((pro_mu - (pro_sigma ** 2) / 2) * dt + pro_sigma * math.sqrt(dt) * random.gauss(0,1))
+
