@@ -1,9 +1,10 @@
 {
     "period": 100,
-    "agents": 100,
+    "agents": 1000,
     "beta": 0.3,
     "chi": 1.0,
     "interest_rate": 0.05,
+    "token_supply": 1000000000,
     "price": {
         "mu": 0.01,
         "sigma": 0.3
