@@ -4,6 +4,9 @@ import random
 from utils import utils
 from simulation import generator
 from scipy import integrate
+from scipy.stats import gaussian_kde
+from typing import List
+import matplotlib.pyplot as plt
 
 class Simulation:
     def __init__(self):
@@ -60,3 +63,11 @@ class Simulation:
             for j in range(1, period):
                 self.utilities[i][j] = generator.generate_ornstein_uhlenbeck_process(self.utilities[i][j-1], utility_mu, utility_sigma, dt, random.gauss(0,1))
 
+    def calc_aggregate_transaction_need(self, utilities: List[float], threshold: float):
+        kde_model = gaussian_kde(utilities)
+
+        # avoid exp overflow
+        y = lambda u: 0.0 if u < -20 or u > 20 else np.exp(u) * kde_model.pdf(u)
+        iy, err = integrate.quad(y, threshold, np.inf)
+        
+        return iy
