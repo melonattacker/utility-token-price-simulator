@@ -13,4 +13,3 @@ def generate_brown_motion(previous_value: float, mu: float, sigma: float, dt: fl
 def generate_ornstein_uhlenbeck_process(previous_value: float, mu: float, sigma: float, dt: float, random_value: float) -> float:
     theta: float = sigma / math.sqrt(2 * mu)
     return previous_value + (theta * (mu - previous_value)) * dt + sigma * math.sqrt(dt) * random_value
-
