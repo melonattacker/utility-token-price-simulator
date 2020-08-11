@@ -18,7 +18,7 @@ class Simulation:
         self.need = np.zeros(self.df['period'])
         self.price = np.zeros(self.df['period'])
 
-    def calc_userbase_and_threshold(self, t: int, threshold: float, user_base: float):
+    def calc_userbase_and_threshold(self, t: int, threshold: float):
         beta: float = self.df['beta']
         chi: float = self.df['chi']
         interest_rate: float = self.df['interest_rate']
@@ -41,7 +41,7 @@ class Simulation:
             self.userbase[t] = new_userbase
             self.threshold[t] = new_threshold
         else:
-            self.calc_userbase_and_threshold(t, new_threshold, new_userbase)
+            self.calc_userbase_and_threshold(t, new_threshold)
 
     def calc_productivity(self):
         period: int = self.df['period']
@@ -52,8 +52,8 @@ class Simulation:
         dt: float = 1.0 / period
 
         # brown motion
-        for i in range(1, period):
-            self.productivities[i] = generator.generate_brown_motion(self.productivities[i-1], pro_mu, pro_sigma, dt, random.gauss(0,1))
+        for t in range(1, period):
+            self.productivities[t] = generator.generate_brown_motion(self.productivities[t-1], pro_mu, pro_sigma, dt, random.gauss(0,1))
 
     def calc_utility(self):
         period: int = self.df['period']
@@ -66,7 +66,6 @@ class Simulation:
         # generate initial utility of agents
         ini_util_generator = generator.initial_utility_gen(a=-20.0, b=20.0)
         self.utilities[0] = ini_util_generator.rvs(mu=utility_mu, sigma=utility_sigma, size=agents)
-        print(self.utilities[0])
 
         # generate utility of agents
         for t in range(1, period):
@@ -78,9 +77,6 @@ class Simulation:
 
         kde_instance = gaussian_kde(self.utilities[t])
         # avoid exp overflow
-        h = np.linspace(-20, 20, 40)
-        plt.plot(h, kde_instance.pdf(h))
-        plt.show()
         y = lambda u: 0.0 if u < -10 or u > 10 else np.exp(u) * kde_instance.pdf(u)
         need, err = integrate.quad(y, threshold, np.inf)
         self.need[t] = need

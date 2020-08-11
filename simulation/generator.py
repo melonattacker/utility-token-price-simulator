@@ -8,7 +8,7 @@ class initial_utility_gen(rv_continuous):
         return math.sqrt(1 / (2 * math.pi * theta ** 2)) * math.e ** (- x ** 2 / (2 * theta ** 2))
 
 def generate_brown_motion(previous_value: float, mu: float, sigma: float, dt: float, random_value: float) -> float:
-    return previous_value * math.exp((mu - (sigma ** 2) / 2) * dt + sigma * math.sqrt(dt) * random_value)
+    return previous_value * math.exp((mu - (sigma ** 2 / 2)) * dt + sigma * math.sqrt(dt) * random_value)
 
 def generate_ornstein_uhlenbeck_process(previous_value: float, mu: float, sigma: float, dt: float, random_value: float) -> float:
     theta: float = sigma / math.sqrt(2 * mu)

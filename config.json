@@ -1,5 +1,5 @@
 {
-    "period": 100,
+    "period": 1000,
     "agents": 1000,
     "beta": 0.3,
     "chi": 1.0,
@@ -12,10 +12,10 @@
     "productivity": {
         "initial_value": 100.0,
         "mu": 0.02,
-        "sigma": 2
+        "sigma": 1.0
     },
     "utility": {
         "mu": 0.03,
-        "sigma": 1.0
+        "sigma": 0.3
     }
 }
