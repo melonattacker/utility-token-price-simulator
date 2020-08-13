@@ -2,7 +2,7 @@ from simulation import simulation, generator
 import matplotlib.pyplot as plt
 import numpy as np
 
-# fig = plt.figure()
+fig = plt.figure()
 
 def main():
     sim = simulation.Simulation()
@@ -15,7 +15,7 @@ def main():
 
     # simulate price
     for t in range(0, period):
-        sim.calc_userbase_and_threshold(t, 0.0)
+        sim.calc_userbase_and_threshold(t)
         sim.calc_aggregate_transaction_need(t)
         sim.calc_price(t)
     
@@ -23,6 +23,6 @@ def main():
     plt.title('Utility Token Price Per Time Point')
     plt.xlabel('time')
     plt.ylabel('price')
-    plt.show()
+    fig.savefig('img.png')
 
 main()
