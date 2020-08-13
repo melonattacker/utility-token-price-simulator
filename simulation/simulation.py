@@ -3,7 +3,7 @@ import math
 import random
 from utils import utils
 from simulation import generator
-from scipy import integrate
+from scipy import integrate, optimize
 from scipy.stats import gaussian_kde
 from typing import List
 import matplotlib.pyplot as plt
@@ -18,7 +18,7 @@ class Simulation:
         self.need = np.zeros(self.df['period'])
         self.price = np.zeros(self.df['period'])
 
-    def calc_userbase_and_threshold(self, t: int, threshold: float):
+    def calc_userbase_and_threshold(self, t: int):
         beta: float = self.df['beta']
         chi: float = self.df['chi']
         interest_rate: float = self.df['interest_rate']
@@ -33,15 +33,20 @@ class Simulation:
 
         y = lambda u: math.sqrt(1 / (2 * math.pi * theta ** 2)) * math.e ** (- u ** 2 / (2 * theta ** 2)) if t == 0 else ked_instance.pdf(u)
 
-        iy, err = integrate.quad(y, -np.inf, threshold)
-        new_userbase: float = 1 - iy
-        new_threshold: float = - math.log(new_userbase) + math.log(chi / (productivity * beta)) - ((1 - beta) / beta) * math.log((1 - beta) / (interest_rate - price_mu))
+        def N_t(u_t):
+            iy, err = integrate.quad(y, -np.inf, u_t)
+            userbase = 1 - iy
+            return userbase - math.exp(-(u_t) + math.log(chi / (productivity * beta)) - ((1 - beta) / beta) * math.log((1 - beta) / (interest_rate - price_mu)))
+        
+        # solve threshold using newton method
+        threshold: float = optimize.newton(N_t, 0)
 
-        if abs(new_threshold - threshold) < 0.0000000000000000000001:
-            self.userbase[t] = new_userbase
-            self.threshold[t] = new_threshold
-        else:
-            self.calc_userbase_and_threshold(t, new_threshold)
+        iy, err = integrate.quad(y, -np.inf, threshold)
+        userbase: float = 1 - iy
+
+        self.userbase[t] = userbase
+        self.threshold[t] = threshold
+        
 
     def calc_productivity(self):
         period: int = self.df['period']
