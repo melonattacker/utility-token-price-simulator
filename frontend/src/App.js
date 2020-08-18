@@ -1,6 +1,6 @@
 import React from 'react';
 import AppBar from './components/AppBar';
-import InputForm from './components/InputForm';
+import Form from './components/Form';
 import './App.css';
 
 class App extends React.Component {
@@ -15,7 +15,7 @@ class App extends React.Component {
           <AppBar />
         </header>
         <div className="App">
-          <InputForm />
+          <Form />
         </div>
       </div>
     )
