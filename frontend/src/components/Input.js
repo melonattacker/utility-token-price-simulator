@@ -17,6 +17,9 @@ const styles = makeStyles((theme) => ({
     },
     space: {
       marginBottom: 20
+    },
+    root: {
+        marginRight: 50
     }
 }))
   
@@ -24,7 +27,7 @@ export function PriceParams(props) {
     const classes = styles();
 
     return (
-        <FormControl>
+        <FormControl className={classes.root}>
             <div className={classes.param}>
                 <p className={classes.header}>Price</p>
                 <div className={classes.input}>
@@ -32,6 +35,24 @@ export function PriceParams(props) {
                 </div>
                 <div className={classes.input}>
                     <TextField required id="standard-required" label="sigma (float)" defaultValue={props.sigma} variant="outlined" onChange={props.handleChange("priceSigma")} />  
+                </div>
+            </div>
+        </FormControl>
+    );
+}
+
+export function UtilityParams(props) {
+    const classes = styles();
+
+    return (
+        <FormControl className={classes.root}>
+            <div className={classes.param}>
+                <p className={classes.header}>Utility</p>
+                <div className={classes.input}>
+                    <TextField required id="standard-required" label="mu (float)" defaultValue={props.mu} variant="outlined" className={classes.space} onChange={props.handleChange("utiMu")}/>  
+                </div>
+                <div className={classes.input}>
+                    <TextField required id="standard-required" label="sigma (float)" defaultValue={props.sigma} variant="outlined" onChange={props.handleChange("utiSigma")} />  
                 </div>
             </div>
         </FormControl>
@@ -58,3 +79,4 @@ export function ProductivityParams(props) {
         </FormControl>
     );
 }
+
