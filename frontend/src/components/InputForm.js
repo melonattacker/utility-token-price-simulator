@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { TextField, FormControl, makeStyles } from '@material-ui/core';
 import '../App.css';
 
@@ -21,17 +21,18 @@ const priceStyles = makeStyles((theme) => ({
   }
 }))
 
-function PriceParams() {
+function PriceParams(props) {
   const classes = priceStyles();
+
   return (
     <FormControl>
       <div className={classes.param}>
         <p className={classes.header}>Price</p>
         <div className={classes.input}>
-          <TextField required id="standard-required" label="mu (float)" defaultValue="0.01" variant="outlined" className={classes.space} />  
+          <TextField required id="standard-required" label="mu (float)" defaultValue={props.mu} variant="outlined" className={classes.space} onChange={props.handleChange("priceMu")}/>  
         </div>
         <div className={classes.input}>
-          <TextField required id="standard-required" label="sigma (float)" defaultValue="0.3" variant="outlined" />  
+          <TextField required id="standard-required" label="sigma (float)" defaultValue={props.sigma} variant="outlined" onChange={props.handleChange("priceSigma")} />  
         </div>
       </div>
     </FormControl>
@@ -41,12 +42,21 @@ function PriceParams() {
 class InputForm extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      "priceMu": "0.01",
+      "priceSigma": "0.3", 
+    }
+  }
+
+  handleChange = (name) => (e) => {
+    this.setState({ [name]: e.target.value})
   }
 
   render() {
+    const state = this.state;
     return(
       <div>
-        <PriceParams />
+        <PriceParams mu={state.priceMu} sigma={state.priceSigma} handleChange={this.handleChange} />
       </div>
     )
   }
