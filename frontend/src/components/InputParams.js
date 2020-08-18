@@ -4,7 +4,8 @@ import { TextField, FormControl, makeStyles } from '@material-ui/core';
 const styles = makeStyles((theme) => ({
     header: {
       marginTop: -5,
-      marginBottom: 20
+      marginBottom: 20,
+      textAlign: 'center'
     },
     input: {
       display: 'flex',
