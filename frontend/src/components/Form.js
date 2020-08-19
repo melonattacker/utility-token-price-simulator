@@ -1,14 +1,17 @@
 import React from 'react';
+import axios from 'axios';
 import { BasicParams, OtherParams, PriceParams, UtilityParams, ProductivityParams } from './InputParams';
-import { withStyles } from '@material-ui/styles';
+import { Button, CircularProgress } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 import '../App.css';
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
     marginLeft: 315,
-    marginRight: 315
+    marginRight: 315,
+    marginTop: -35
   },
   upper: {
     height: 293,
@@ -18,6 +21,21 @@ const styles = theme => ({
   lower: {
     height: 293,
     width: 808
+  },
+  buttonFrame: {
+    height: 50,
+    width: 200,
+    marginTop: -30,
+    marginLeft: 343,
+  },
+  button: {
+    height: 50,
+    width: 130,
+    fontSize: 17,
+    background: theme.palette.info.main
+  },
+  progress: {
+    float: 'right'
   }
 });
 
@@ -37,12 +55,52 @@ class Form extends React.Component {
       "utiSigma": 0.3, 
       "proIni": 100.0,
       "proMu": 0.02,
-      "proSigma": 1.0
+      "proSigma": 1.0,
+      "waiting": false
     }
+    this.handleSend = this.handleSend.bind(this);
   }
 
   handleChange = (name) => (e) => {
     this.setState({ [name]: e.target.value})
+  }
+
+  async handleSend() {
+    const state = this.state;
+    try {
+      this.setState({ waiting: true })
+      const res = await axios({
+        method: 'post',
+        url: 'http://127.0.0.1:5000/',
+        data: {
+          period: state.period,
+          agents: state.agents,
+          beta: state.beta,
+          chi: state.chi,
+          interest_rate: state.freeRate,
+          token_supply: state.tokenSupply,
+          price: {
+            mu: state.priceMu,
+            sigma: state.priceSigma
+          }, 
+          productivity: {
+            initial_value: state.proIni,
+            mu: state.proMu,
+            sigma: state.proSigma
+          },
+          utility: {
+            mu: state.utiMu,
+            sigma: state.utiSigma
+          }
+        }
+      });
+      this.setState({ waiting: false })
+      console.log(res.data);
+    } catch(err) {
+      this.setState({ waiting: false })
+      console.log(err.response);
+      window.alert('Error happened.')
+    }
   }
 
   render() {
@@ -58,6 +116,15 @@ class Form extends React.Component {
         <div className={classes.lower}>
           <PriceParams mu={state.priceMu} sigma={state.priceSigma} handleChange={this.handleChange} />
           <UtilityParams mu={state.utiMu} sigma={state.utiSigma} handleChange={this.handleChange} />
+        </div>
+        <div className={classes.buttonFrame}>
+          <Button className={classes.button} variant="contained" color="primary" onClick={this.handleSend}>Simulate</Button>
+          <div className={classes.progress} >
+            {state.waiting
+              ? <CircularProgress/>
+              : <p></p>
+            }
+          </div>
         </div>
       </div>
     )
