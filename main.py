@@ -1,11 +1,10 @@
-from simulation import simulation, generator
+from simulation import simulator, generator
 import matplotlib.pyplot as plt
-import numpy as np
 
 fig = plt.figure()
 
 def main():
-    sim = simulation.Simulation()
+    sim = simulator.Simulator()
     period: int = sim.df['period']
 
     # generate productivity
