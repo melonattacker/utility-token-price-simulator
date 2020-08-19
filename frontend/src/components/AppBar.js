@@ -14,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  bar: {
+    background: theme.palette.info.dark
+  }
 }));
 
 export default function ButtonAppBar() {
@@ -21,7 +24,7 @@ export default function ButtonAppBar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar className={classes.bar} position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             Utility Token Price Simulator

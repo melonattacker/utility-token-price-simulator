@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 from simulation import simulation
 from typing import List
 import json
@@ -6,6 +7,8 @@ import json
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False 
 app.config["JSON_SORT_KEYS"] = False 
+
+cors = CORS(app, resources={r"/": {"origins": "http://localhost:3000"}})
 
 @app.route('/', methods=['POST'])
 def handler():
@@ -15,10 +18,11 @@ def handler():
     print("Now computing...")
     prices: List[float] = simulation.simulate(json_obj)
 
-    return jsonify({
+    response = jsonify({
         'status': 'OK',
         'prices': prices
-        })
+    })
+    return response
 
 if __name__ == "__main__":
     app.run(debug=True)
