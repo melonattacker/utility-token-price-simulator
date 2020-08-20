@@ -1,11 +1,14 @@
 import React from 'react';
-import AppBar from './components/AppBar';
-import Form from './components/Form';
-import './App.css';
+import AppBar from '../AppBar';
+import '../../App.css';
 
-class App extends React.Component {
+class Result extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+    console.log(this.props.location.state);
   }
 
   render() {
@@ -15,11 +18,10 @@ class App extends React.Component {
           <AppBar />
         </header>
         <div className="App">
-          <Form />
         </div>
       </div>
     )
   }
 }
 
-export default App;
+export default Result;

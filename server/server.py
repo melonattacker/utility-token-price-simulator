@@ -14,6 +14,7 @@ cors = CORS(app, resources={r"/": {"origins": "http://localhost:3000"}})
 def handler():
     json_str: str = request.data.decode('utf-8')
     json_obj: dict = json.loads(json_str)
+    print(json_obj)
 
     print("Now computing...")
     prices: List[float] = simulation.simulate(json_obj)
