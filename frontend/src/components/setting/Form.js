@@ -1,9 +1,10 @@
 import React from 'react';
 import axios from 'axios';
+import { withRouter } from 'react-router-dom';
 import { BasicParams, OtherParams, PriceParams, UtilityParams, ProductivityParams } from './InputParams';
 import { Button, CircularProgress } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import '../App.css';
+import '../../App.css';
 
 const styles = (theme) => ({
   root: {
@@ -43,7 +44,7 @@ class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      "period": 1000,
+      "period": 100,
       "agents": 1000,
       "tokenSupply": 1000000000,
       "beta": 0.3,
@@ -95,10 +96,14 @@ class Form extends React.Component {
         }
       });
       this.setState({ waiting: false })
+      this.props.history.push({
+        pathname: '/result',
+        state: { prices: res.data.prices, img: res.data.img }
+      });
       console.log(res.data);
     } catch(err) {
       this.setState({ waiting: false })
-      console.log(err.response);
+      console.log(err);
       window.alert('Error happened.')
     }
   }
@@ -131,4 +136,4 @@ class Form extends React.Component {
   }
 }
 
-export default withStyles(styles)(Form);
+export default withRouter(withStyles(styles)(Form));

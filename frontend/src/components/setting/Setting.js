@@ -1,9 +1,9 @@
 import React from 'react';
-import AppBar from './components/AppBar';
-import Form from './components/Form';
-import './App.css';
+import AppBar from '../AppBar';
+import Form from './Form';
+import '../../App.css';
 
-class App extends React.Component {
+class Setting extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -22,4 +22,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default Setting;
