@@ -1,8 +1,9 @@
 from simulation import simulator
 from typing import List
-import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('agg')
 
-fig = plt.figure()
+import matplotlib.pyplot as plt
 
 def simulate(df: dict) -> List[float]:
     sim = simulator.Simulator(df)
@@ -19,6 +20,7 @@ def simulate(df: dict) -> List[float]:
         sim.calc_aggregate_transaction_need(t)
         sim.calc_price(t)
 
+    fig = plt.figure()
     plt.plot(sim.price)
     plt.title('Utility Token Price Per Time Point')
     plt.xlabel('time')

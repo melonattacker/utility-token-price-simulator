@@ -15,13 +15,20 @@ const styles = (theme) => ({
     },
     buttonFrame: {
       marginTop: 30,
-      marginLeft: 345,
+      marginLeft: 300,
       height: 50,
-      width: 200,
+      width: 400,
     },
-    button: {
+    imgButton: {
       height: 50,
-      width: 130,
+      width: 100,
+      fontSize: 17,
+      marginRight: 40,
+      background: theme.palette.info.main
+    },
+    csvButton: {
+      height: 50,
+      width: 100,
       fontSize: 17,
       background: theme.palette.info.main
     },
@@ -39,16 +46,26 @@ class Result extends React.Component {
     }
     this.state.prices = this.props.location.state.prices;
     this.state.img = this.props.location.state.img;
-    this.handleDownload = this.handleDownload.bind(this);
+    this.handleImgDownload = this.handleImgDownload.bind(this);
+    this.handleCsvDownload = this.handleCsvDownload.bind(this);
   }
 
-  handleDownload() {
+  handleCsvDownload() {
     const str = this.state.prices.join(',\n');
     const blob = new Blob([str], {"type": "text/csv"});
 
     let link = document.createElement('a')
     link.href = window.URL.createObjectURL(blob)
-    link.download = 'hoge.csv'
+    link.download = 'prices.csv'
+    link.click()
+  }
+
+  handleImgDownload() {
+    const img = this.state.img;
+
+    let link = document.createElement('a')
+    link.href = "data:image/png;base64," + img;
+    link.download = 'prices.png'
     link.click()
   }
 
@@ -61,10 +78,11 @@ class Result extends React.Component {
         </header>
         <div className={classes.root}>
             <div className={classes.imgFrame}>
-                <img src={`data:image/jpeg;base64,${this.state.img}`}></img>
+                <img src={`data:image/png;base64,${this.state.img}`}></img>
             </div>
             <div className={classes.buttonFrame}>
-                <Button className={classes.button} variant="contained" color="primary" onClick={this.handleDownload}>csv</Button>
+                <Button className={classes.imgButton} variant="contained" color="primary" onClick={this.handleImgDownload}>image</Button>
+                <Button className={classes.csvButton} variant="contained" color="primary" onClick={this.handleCsvDownload}>csv</Button>
             </div>
         </div>
       </div>

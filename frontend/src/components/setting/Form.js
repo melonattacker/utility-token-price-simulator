@@ -44,7 +44,7 @@ class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      "period": 10,
+      "period": 100,
       "agents": 1000,
       "tokenSupply": 1000000000,
       "beta": 0.3,
