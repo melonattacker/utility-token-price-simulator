@@ -1,5 +1,8 @@
 from simulation import simulator
 from typing import List
+import matplotlib.pyplot as plt
+
+fig = plt.figure()
 
 def simulate(df: dict) -> List[float]:
     sim = simulator.Simulator(df)
@@ -15,5 +18,11 @@ def simulate(df: dict) -> List[float]:
         sim.calc_userbase_and_threshold(t)
         sim.calc_aggregate_transaction_need(t)
         sim.calc_price(t)
+
+    plt.plot(sim.price)
+    plt.title('Utility Token Price Per Time Point')
+    plt.xlabel('time')
+    plt.ylabel('price')
+    fig.savefig('img.png')
 
     return sim.price.tolist()

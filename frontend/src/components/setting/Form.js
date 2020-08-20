@@ -98,7 +98,7 @@ class Form extends React.Component {
       this.setState({ waiting: false })
       this.props.history.push({
         pathname: '/result',
-        state: { prices: res.data.prices }
+        state: { prices: res.data.prices, img: res.data.img }
       });
       console.log(res.data);
     } catch(err) {
