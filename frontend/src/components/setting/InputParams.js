@@ -32,13 +32,13 @@ export function BasicParams(props) {
             <div className={classes.param}>
                 <p className={classes.header}>Basic</p>
                 <div className={classes.input}>
-                    <TextField required id="period" label="Period (int)" defaultValue={props.period} variant="outlined" className={classes.space} onChange={props.handleChange("period")}/>  
+                    <TextField required name="period" id="period" label="Period (int)" defaultValue={props.period} variant="outlined" className={classes.space} onChange={props.handleChange}/>  
                 </div>
                 <div className={classes.input}>
-                    <TextField required id="agents" label="Agents (int)" defaultValue={props.agents} variant="outlined" className={classes.space} onChange={props.handleChange("agents")} />  
+                    <TextField required name="agents" id="agents" label="Agents (int)" defaultValue={props.agents} variant="outlined" className={classes.space} onChange={props.handleChange} />  
                 </div>
                 <div className={classes.input}>
-                    <TextField required id="supply" label="Token Supply (int)" defaultValue={props.supply} variant="outlined" onChange={props.handleChange("tokenSpply")}/>  
+                    <TextField required name="tokenSupply" id="supply" label="Token Supply (int)" defaultValue={props.supply} variant="outlined" onChange={props.handleChange}/>  
                 </div>
             </div>
         </FormControl>
@@ -53,13 +53,13 @@ export function OtherParams(props) {
             <div className={classes.param}>
                 <p className={classes.header}>Others</p>
                 <div className={classes.input}>
-                    <TextField required id="beta" label="Beta (float)" defaultValue={props.beta} variant="outlined" className={classes.space} onChange={props.handleChange("beta")}/>  
+                    <TextField required name="beta" id="beta" label="Beta (float)" defaultValue={props.beta} variant="outlined" className={classes.space} onChange={props.handleChange}/>  
                 </div>
                 <div className={classes.input}>
-                    <TextField required id="chi" label="Chi (int)" defaultValue={props.chi} variant="outlined" className={classes.space} onChange={props.handleChange("chi")} />  
+                    <TextField required name="chi" id="chi" label="Chi (float)" defaultValue={props.chi} variant="outlined" className={classes.space} onChange={props.handleChange} />  
                 </div>
                 <div className={classes.input}>
-                    <TextField required id="free-rate" label="Risk Free Rate (int)" defaultValue={props.rate} variant="outlined" onChange={props.handleChange("freeRate")}/>  
+                    <TextField required name="freeRate" id="free-rate" label="Risk Free Rate (float)" defaultValue={props.rate} variant="outlined" onChange={props.handleChange}/>  
                 </div>
             </div>
         </FormControl>
@@ -74,10 +74,10 @@ export function PriceParams(props) {
             <div className={classes.param}>
                 <p className={classes.header}>Price</p>
                 <div className={classes.input}>
-                    <TextField required id="price-mu" label="Mu (float)" defaultValue={props.mu} variant="outlined" className={classes.space} onChange={props.handleChange("priceMu")}/>  
+                    <TextField required name="priceMu" id="price-mu" label="Mu (float)" defaultValue={props.mu} variant="outlined" className={classes.space} onChange={props.handleChange}/>  
                 </div>
                 <div className={classes.input}>
-                    <TextField required id="price-sigma" label="Sigma (float)" defaultValue={props.sigma} variant="outlined" onChange={props.handleChange("priceSigma")} />  
+                    <TextField required name="priceSigma" id="price-sigma" label="Sigma (float)" defaultValue={props.sigma} variant="outlined" onChange={props.handleChange} />  
                 </div>
             </div>
         </FormControl>
@@ -92,10 +92,10 @@ export function UtilityParams(props) {
             <div className={classes.param}>
                 <p className={classes.header}>Utility</p>
                 <div className={classes.input}>
-                    <TextField required id="uti-mu" label="Mu (float)" defaultValue={props.mu} variant="outlined" className={classes.space} onChange={props.handleChange("utiMu")}/>  
+                    <TextField required name="utiMu" id="uti-mu" label="Mu (float)" defaultValue={props.mu} variant="outlined" className={classes.space} onChange={props.handleChange}/>  
                 </div>
                 <div className={classes.input}>
-                    <TextField required id="uti-sigma" label="Sigma (float)" defaultValue={props.sigma} variant="outlined" onChange={props.handleChange("utiSigma")} />  
+                    <TextField required name="utiSigma" id="uti-sigma" label="Sigma (float)" defaultValue={props.sigma} variant="outlined" onChange={props.handleChange} />  
                 </div>
             </div>
         </FormControl>
@@ -110,13 +110,13 @@ export function ProductivityParams(props) {
             <div className={classes.param}>
                 <p className={classes.header}>Productivity</p>
                 <div className={classes.input}>
-                    <TextField required id="pro-ini" label="Initial Value (float)" defaultValue={props.ini} variant="outlined" className={classes.space} onChange={props.handleChange("proIni")}/>  
+                    <TextField required name="proIni" id="pro-ini" label="Initial Value (float)" defaultValue={props.ini} variant="outlined" className={classes.space} onChange={props.handleChange}/>  
                 </div>
                 <div className={classes.input}>
-                    <TextField required id="pro-mu" label="Mu (float)" defaultValue={props.mu} variant="outlined" className={classes.space} onChange={props.handleChange("proMu")}/>  
+                    <TextField required name="proMu" id="pro-mu" label="Mu (float)" defaultValue={props.mu} variant="outlined" className={classes.space} onChange={props.handleChange}/>  
                 </div>
                 <div className={classes.input}>
-                    <TextField required id="pro-sigma" label="Sigma (float)" defaultValue={props.sigma} variant="outlined" onChange={props.handleChange("proSigma")} />  
+                    <TextField required name="proSigma" id="pro-sigma" label="Sigma (float)" defaultValue={props.sigma} variant="outlined" onChange={props.handleChange} />  
                 </div>
             </div>
         </FormControl>
