@@ -1,0 +1,10 @@
+FROM python:3
+
+ENV PYTHONPATH $PATH:/utility-token-price-simulator
+
+RUN pip install \
+        flask \
+        flask_cors \
+        numpy \
+        scipy \
+        matplotlib 

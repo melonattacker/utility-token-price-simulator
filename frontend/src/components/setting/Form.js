@@ -72,7 +72,7 @@ class Form extends React.Component {
       this.setState({ waiting: true })
       const res = await axios({
         method: 'post',
-        url: 'http://127.0.0.1:5000/',
+        url: 'http://localhost:5000/',
         data: {
           period: state.period,
           agents: state.agents,
