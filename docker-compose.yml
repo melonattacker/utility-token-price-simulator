@@ -8,8 +8,30 @@ services:
         build: 
             context: ./
             dockerfile: ./Dockerfile.frontend
+        networks:
+            - network
         volumes:
             - type: bind
               source: .
               target: /utility-token-price-simulator
         command: ["/bin/sh", "-c", "cd /utility-token-price-simulator/frontend && npm install && npm start"]
+    
+    server:
+        container_name: utps_server
+        ports:
+            - '5000:5000'
+        stdin_open: true
+        build: 
+            context: ./
+            dockerfile: ./Dockerfile.server
+        networks:
+            - network
+        volumes:
+            - type: bind
+              source: .
+              target: /utility-token-price-simulator
+        command: ["/bin/sh", "-c", "cd /utility-token-price-simulator && python3 server/server.py"]
+        
+networks:
+    network:
+        external: true
