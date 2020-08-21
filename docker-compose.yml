@@ -1,0 +1,15 @@
+version: '3.3'
+services:
+    frontend:
+        container_name: utps_frontend
+        ports:
+            - '3000:3000'
+        stdin_open: true
+        build: 
+            context: ./
+            dockerfile: ./Dockerfile.frontend
+        volumes:
+            - type: bind
+              source: .
+              target: /utility-token-price-simulator
+        command: ["/bin/sh", "-c", "cd /utility-token-price-simulator/frontend && npm install && npm start"]
