@@ -40,51 +40,51 @@ function Form(props) {
     setState({ ...state, [event.target.name]: event.target.value})
   }
 
-  const handleSend = async(e) => {
-    // e.preventDefault();
-    // try {
-    //   setState({ waiting: true })
-    //   const res = await axios({
-    //     method: 'post',
-    //     url: 'http://localhost:5000/',
-    //     data: {
-    //       period: parseInt(state.period),
-    //       agents: parseInt(state.agents),
-    //       beta: parseFloat(state.beta),
-    //       chi: parseFloat(state.chi),
-    //       interest_rate: parseFloat(state.freeRate),
-    //       token_supply: parseInt(state.tokenSupply),
-    //       price: {
-    //         mu: parseFloat(state.priceMu),
-    //         sigma: parseFloat(state.priceSigma)
-    //       }, 
-    //       productivity: {
-    //         initial_value: parseFloat(state.proIni),
-    //         mu: parseFloat(state.proMu),
-    //         sigma: parseFloat(state.proSigma)
-    //       },
-    //       utility: {
-    //         mu: parseFloat(state.utiMu),
-    //         sigma: parseFloat(state.utiSigma)
-    //       }
-    //     }
-    //   });
-    //   setState({ waiting: false })
-    //   props.history.push({
-    //     pathname: '/result',
-    //     state: { prices: res.data.prices, img: res.data.img }
-    //   });
-    //   console.log(res.data);
-    // } catch(err) {
-    //   setState({ waiting: false })
-    //   console.log(err);
-    //   window.alert('Error happened.')
-    // }
+  const onSubmit = async() => {
+
+    try {
+      setState({ ...state, waiting: true });
+      const res = await axios({
+        method: 'post',
+        url: 'http://localhost:5000/',
+        data: {
+          period: parseInt(state.period),
+          agents: parseInt(state.agents),
+          beta: parseFloat(state.beta),
+          chi: parseFloat(state.chi),
+          interest_rate: parseFloat(state.freeRate),
+          token_supply: parseInt(state.tokenSupply),
+          price: {
+            mu: parseFloat(state.priceMu),
+            sigma: parseFloat(state.priceSigma)
+          }, 
+          productivity: {
+            initial_value: parseFloat(state.proIni),
+            mu: parseFloat(state.proMu),
+            sigma: parseFloat(state.proSigma)
+          },
+          utility: {
+            mu: parseFloat(state.utiMu),
+            sigma: parseFloat(state.utiSigma)
+          }
+        }
+      });
+      setState({ ...state, waiting: false });
+      props.history.push({
+        pathname: '/result',
+        state: { prices: res.data.prices, img: res.data.img }
+      });
+      console.log(res.data);
+    } catch(err) {
+      setState({ ...state, waiting: false });
+      console.log(err);
+      window.alert('Error happened.')
+    }
   }
 
   return(
     <div className={classes.root}>
-      <form onSubmit={handleSubmit(handleSend)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
       <div className={classes.upper}>
         <BasicParams 
           period={state.period} agents={state.agents} supply={state.tokenSupply} 
