@@ -1,6 +1,7 @@
 {
-    "period": 1000,
+    "period": 100,
     "agents": 1000,
+    "times": 1,
     "beta": 0.3,
     "chi": 1.0,
     "interest_rate": 0.05,
@@ -12,7 +13,7 @@
     "productivity": {
         "initial_value": 100.0,
         "mu": 0.02,
-        "sigma": 1.0
+        "sigma": 2.0
     },
     "utility": {
         "mu": 0.03,
