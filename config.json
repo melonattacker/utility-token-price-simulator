@@ -1,7 +1,7 @@
 {
     "period": 300,
     "agents": 1000,
-    "times": 1,
+    "times": 2,
     "beta": 0.3,
     "chi": 1.0,
     "interest_rate": 0.05,
