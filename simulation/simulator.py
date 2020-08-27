@@ -1,5 +1,4 @@
 import numpy as np
-import math
 import random
 import matplotlib.pyplot as plt
 from simulation import generator
@@ -27,15 +26,15 @@ class Simulator:
 
         productivity: float = self.productivities[t]
 
-        theta: float = utility_sigma / math.sqrt(2 * utility_mu)
+        theta: float = utility_sigma / np.sqrt(2 * utility_mu)
         ked_instance = gaussian_kde(self.utilities[t])
 
-        y = lambda u: math.sqrt(1 / (2 * math.pi * theta ** 2)) * math.e ** (- u ** 2 / (2 * theta ** 2)) if t == 0 else ked_instance.pdf(u)
+        y = lambda u: np.sqrt(1 / (2 * np.pi * theta ** 2)) * np.exp(- u ** 2 / (2 * theta ** 2)) if t == 0 else ked_instance.pdf(u)
 
         def f(u_t):
             iy, err = integrate.quad(y, -np.inf, u_t)
             userbase = 1 - iy
-            return userbase - np.exp(-(u_t) + math.log(chi / (productivity * beta)) - ((1 - beta) / beta) * math.log((1 - beta) / (interest_rate - price_mu)))
+            return userbase - np.exp(-(u_t) + np.log(chi / (productivity * beta)) - ((1 - beta) / beta) * np.log((1 - beta) / (interest_rate - price_mu)))
         
         # solve threshold using newton method
         threshold: float = optimize.newton(f, x0=0.0, maxiter=100, disp=True)
@@ -85,8 +84,8 @@ class Simulator:
         if t == 0:
             utility_mu: float = self.df['utility']['mu']
             utility_sigma: float = self.df['utility']['sigma']
-            theta: float = utility_sigma / math.sqrt(2 * utility_mu)
-            y = lambda u: 0.0 if u < -20 or u > 20 else np.exp(u) * math.sqrt(1 / (2 * math.pi * theta ** 2)) * math.e ** (- u ** 2 / (2 * theta ** 2))
+            theta: float = utility_sigma / np.sqrt(2 * utility_mu)
+            y = lambda u: 0.0 if u < -20 or u > 20 else np.exp(u) * np.sqrt(1 / (2 * np.pi * theta ** 2)) * np.exp(- u ** 2 / (2 * theta ** 2))
             need, err = integrate.quad(y, threshold, np.inf)
             self.need[t] = need
         else:
