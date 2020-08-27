@@ -2,6 +2,12 @@ import numpy as np
 from scipy.stats import rv_continuous
 
 class initial_utility_gen(rv_continuous):
+    # def _argcheck(self, *args):
+    #     cond = 1
+    #     for arg in args:
+    #         cond = np.logical_and(cond, (np.asarray(arg) >= 0))
+    #     return cond
+
     def _pdf(self, x, mu, sigma):
         theta: float = sigma / np.sqrt(2 * mu)
         return np.sqrt(1 / (2 * np.pi * theta ** 2)) * np.e ** (- x ** 2 / (2 * theta ** 2))

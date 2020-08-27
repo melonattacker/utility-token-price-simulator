@@ -1,5 +1,5 @@
 {
-    "period": 100,
+    "period": 300,
     "agents": 1000,
     "times": 1,
     "beta": 0.3,
@@ -7,8 +7,7 @@
     "interest_rate": 0.05,
     "token_supply": 1000000000,
     "price": {
-        "mu": 0.01,
-        "sigma": 0.3
+        "mu": 0.04
     },
     "productivity": {
         "initial_value": 100.0,
@@ -16,7 +15,7 @@
         "sigma": 2.0
     },
     "utility": {
-        "mu": 0.03,
-        "sigma": 0.3
+        "mu": 1.0,
+        "sigma": 10.0
     }
 }

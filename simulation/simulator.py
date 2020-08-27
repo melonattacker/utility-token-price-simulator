@@ -28,28 +28,24 @@ class Simulator:
         productivity: float = self.productivities[t]
 
         theta: float = utility_sigma / np.sqrt(2 * utility_mu)
-        ked_instance = gaussian_kde(self.utilities[t])
+        ked_instance = gaussian_kde(self.utilities[t].tolist())
 
         y = lambda u: np.sqrt(1 / (2 * np.pi * theta ** 2)) * np.exp(- u ** 2 / (2 * theta ** 2)) if t == 0 else ked_instance.pdf(u)
 
         def f(u_t):
-            iy, err = integrate.quad(y, -np.inf, u_t)
-            userbase = 1 - iy
+            userbase, err = integrate.quad(y, u_t, np.inf)
             return userbase - np.exp(-(u_t) + np.log(chi / (productivity * beta)) - ((1 - beta) / beta) * np.log((1 - beta) / (interest_rate - price_mu)))
         
         # solve threshold using newton method
         try:
-            threshold: float = optimize.newton(f, x0=0.0, maxiter=100, disp=True)
-            iy, err = integrate.quad(y, -np.inf, threshold)
-            userbase: float = 1 - iy
-
+            threshold: float = optimize.newton(f, x0=0.0, maxiter=1000, disp=True)
+            userbase, err = integrate.quad(y, threshold, np.inf)
             self.userbase[t] = userbase
             self.threshold[t] = threshold
         except RuntimeError:
             print('Runtime error happend. There are problems within the parameters')
             sys.exit(1)
 
-        
 
     def calc_productivity(self):
         period: int = self.df['period']
@@ -72,7 +68,7 @@ class Simulator:
         dt: float = 1.0 / period
 
         # generate initial utility of agents
-        ini_util_generator = generator.initial_utility_gen(a=-20.0, b=20.0)
+        ini_util_generator = generator.initial_utility_gen(momtype=0, a=-20.0, b=20.0)
         self.utilities[0] = ini_util_generator.rvs(mu=utility_mu, sigma=utility_sigma, size=agents)
 
         # generate utility of agents
@@ -91,7 +87,7 @@ class Simulator:
             need, err = integrate.quad(y, threshold, np.inf)
             self.need[t] = need
         else:
-            kde_instance = gaussian_kde(self.utilities[t])
+            kde_instance = gaussian_kde(self.utilities[t].tolist())
             # avoid exp overflow
             y = lambda u: 0.0 if u < -20 or u > 20 else np.exp(u) * kde_instance.pdf(u)
             need, err = integrate.quad(y, threshold, np.inf)

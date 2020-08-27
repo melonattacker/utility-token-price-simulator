@@ -28,13 +28,13 @@ def main():
             sim.calc_userbase_and_threshold(t)
             sim.calc_aggregate_transaction_need(t)
             sim.calc_price(t)
-        print(sim.price)
         plt.plot(sim.price)
 
+    # print(sim.price)
     plt.title('Utility Token Price Per Time Point')
     plt.xlabel('time')
     plt.ylabel('price')
-    fig.savefig('img.png')
+    fig.savefig('glaph.png')
     print('Simulation finished. Price glaph is output.')
 
 main()
