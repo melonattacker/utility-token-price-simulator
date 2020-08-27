@@ -35,5 +35,6 @@ def main():
     plt.xlabel('time')
     plt.ylabel('price')
     fig.savefig('img.png')
+    print('Simulation finished. Price glaph is output.')
 
 main()

@@ -66,6 +66,9 @@ def validate(df: dict) -> bool:
     if type(df['productivity']['initial_value']) != float:
         print('productivity initial_value parameter must be float.')
         sys.exit(0)
+    elif df['productivity']['initial_value'] <= 0.0:
+        print('productivity initial_value parameter must be greater than 0.')
+        sys.exit(0)
 
     if type(df['productivity']['mu']) != float:
         print('productivity mu parameter must be float.')

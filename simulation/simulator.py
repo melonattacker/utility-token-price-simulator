@@ -1,4 +1,5 @@
 import numpy as np
+import sys
 import random
 import matplotlib.pyplot as plt
 from simulation import generator
@@ -37,16 +38,17 @@ class Simulator:
             return userbase - np.exp(-(u_t) + np.log(chi / (productivity * beta)) - ((1 - beta) / beta) * np.log((1 - beta) / (interest_rate - price_mu)))
         
         # solve threshold using newton method
-        threshold: float = optimize.newton(f, x0=0.0, maxiter=100, disp=True)
+        try:
+            threshold: float = optimize.newton(f, x0=0.0, maxiter=100, disp=True)
+            iy, err = integrate.quad(y, -np.inf, threshold)
+            userbase: float = 1 - iy
 
-        iy, err = integrate.quad(y, -np.inf, threshold)
-        userbase: float = 1 - iy
-        if threshold > 10:
-            print(threshold)
-            print(userbase)
+            self.userbase[t] = userbase
+            self.threshold[t] = threshold
+        except RuntimeError:
+            print('Runtime error happend. There are problems within the parameters')
+            sys.exit(1)
 
-        self.userbase[t] = userbase
-        self.threshold[t] = threshold
         
 
     def calc_productivity(self):
