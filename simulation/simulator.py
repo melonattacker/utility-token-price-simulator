@@ -1,14 +1,15 @@
 import numpy as np
-import math
+import sys
 import random
+import matplotlib.pyplot as plt
 from simulation import generator
 from scipy import integrate, optimize
 from scipy.stats import gaussian_kde
-import matplotlib.pyplot as plt
+from typing import List
 
 class Simulator:
     def __init__(self, df: dict):
-        self.df = df
+        self.df: dict = df
         self.productivities = np.zeros(self.df['period']) 
         self.utilities = np.zeros((self.df['period'], self.df['agents']))
         self.userbase = np.zeros(self.df['period'])
@@ -26,25 +27,25 @@ class Simulator:
 
         productivity: float = self.productivities[t]
 
-        theta: float = utility_sigma / math.sqrt(2 * utility_mu)
-        ked_instance = gaussian_kde(self.utilities[t])
+        theta: float = utility_sigma / np.sqrt(2 * utility_mu)
+        ked_instance = gaussian_kde(self.utilities[t].tolist())
 
-        y = lambda u: math.sqrt(1 / (2 * math.pi * theta ** 2)) * math.e ** (- u ** 2 / (2 * theta ** 2)) if t == 0 else ked_instance.pdf(u)
+        y = lambda u: np.sqrt(1 / (2 * np.pi * theta ** 2)) * np.exp(- u ** 2 / (2 * theta ** 2)) if t == 0 else ked_instance.pdf(u)
 
-        def N_t(u_t):
-            iy, err = integrate.quad(y, -np.inf, u_t)
-            userbase = 1 - iy
-            return userbase - math.exp(-(u_t) + math.log(chi / (productivity * beta)) - ((1 - beta) / beta) * math.log((1 - beta) / (interest_rate - price_mu)))
+        def f(u_t):
+            userbase, err = integrate.quad(y, u_t, np.inf)
+            return userbase - np.exp(-(u_t) + np.log(chi / (productivity * beta)) - ((1 - beta) / beta) * np.log((1 - beta) / (interest_rate - price_mu)))
         
         # solve threshold using newton method
-        threshold: float = optimize.newton(N_t, 0)
+        try:
+            threshold: float = optimize.newton(f, x0=0.0, maxiter=1000, disp=True)
+            userbase, err = integrate.quad(y, threshold, np.inf)
+            self.userbase[t] = userbase
+            self.threshold[t] = threshold
+        except RuntimeError:
+            print('Runtime error happend. There are problems within the parameters')
+            sys.exit(1)
 
-        iy, err = integrate.quad(y, -np.inf, threshold)
-        userbase: float = 1 - iy
-
-        self.userbase[t] = userbase
-        self.threshold[t] = threshold
-        
 
     def calc_productivity(self):
         period: int = self.df['period']
@@ -67,7 +68,7 @@ class Simulator:
         dt: float = 1.0 / period
 
         # generate initial utility of agents
-        ini_util_generator = generator.initial_utility_gen(a=-20.0, b=20.0)
+        ini_util_generator = generator.initial_utility_gen(momtype=0, a=-20.0, b=20.0)
         self.utilities[0] = ini_util_generator.rvs(mu=utility_mu, sigma=utility_sigma, size=agents)
 
         # generate utility of agents
@@ -77,12 +78,20 @@ class Simulator:
 
     def calc_aggregate_transaction_need(self, t: int):
         threshold: float = self.threshold[t]
-
-        kde_instance = gaussian_kde(self.utilities[t])
-        # avoid exp overflow
-        y = lambda u: 0.0 if u < -10 or u > 10 else np.exp(u) * kde_instance.pdf(u)
-        need, err = integrate.quad(y, threshold, np.inf)
-        self.need[t] = need
+    
+        if t == 0:
+            utility_mu: float = self.df['utility']['mu']
+            utility_sigma: float = self.df['utility']['sigma']
+            theta: float = utility_sigma / np.sqrt(2 * utility_mu)
+            y = lambda u: 0.0 if u < -20 or u > 20 else np.exp(u) * np.sqrt(1 / (2 * np.pi * theta ** 2)) * np.exp(- u ** 2 / (2 * theta ** 2))
+            need, err = integrate.quad(y, threshold, np.inf)
+            self.need[t] = need
+        else:
+            kde_instance = gaussian_kde(self.utilities[t].tolist())
+            # avoid exp overflow
+            y = lambda u: 0.0 if u < -20 or u > 20 else np.exp(u) * kde_instance.pdf(u)
+            need, err = integrate.quad(y, threshold, np.inf)
+            self.need[t] = need
 
     def calc_price(self, t: int):
         beta: float = self.df['beta']
@@ -93,6 +102,6 @@ class Simulator:
         need: float = self.need[t]
         productivity: float = self.productivities[t]
 
-        price: float = userbase * need * productivity / supply * ((1 - beta) / (interest_rate - price_mu)) ** (1 / beta)
+        price: float = (userbase * need * productivity / supply) * ((1 - beta) / (interest_rate - price_mu)) ** (1 / beta)
 
         self.price[t] = price

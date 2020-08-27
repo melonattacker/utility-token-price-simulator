@@ -1,15 +1,20 @@
-import math
 import numpy as np
 from scipy.stats import rv_continuous
 
 class initial_utility_gen(rv_continuous):
+    # def _argcheck(self, *args):
+    #     cond = 1
+    #     for arg in args:
+    #         cond = np.logical_and(cond, (np.asarray(arg) >= 0))
+    #     return cond
+
     def _pdf(self, x, mu, sigma):
-        theta: float = sigma / math.sqrt(2 * mu)
-        return math.sqrt(1 / (2 * math.pi * theta ** 2)) * math.e ** (- x ** 2 / (2 * theta ** 2))
+        theta: float = sigma / np.sqrt(2 * mu)
+        return np.sqrt(1 / (2 * np.pi * theta ** 2)) * np.e ** (- x ** 2 / (2 * theta ** 2))
 
 def generate_brown_motion(previous_value: float, mu: float, sigma: float, dt: float, random_value: float) -> float:
-    return previous_value * math.exp((mu - (sigma ** 2 / 2)) * dt + sigma * math.sqrt(dt) * random_value)
+    return previous_value * np.exp((mu - (sigma ** 2 / 2)) * dt + sigma * np.sqrt(dt) * random_value)
 
 def generate_ornstein_uhlenbeck_process(previous_value: float, mu: float, sigma: float, dt: float, random_value: float) -> float:
-    theta: float = sigma / math.sqrt(2 * mu)
-    return previous_value + (theta * (mu - previous_value)) * dt + sigma * math.sqrt(dt) * random_value
+    theta: float = sigma / np.sqrt(2 * mu)
+    return previous_value + (theta * (mu - previous_value)) * dt + sigma * np.sqrt(dt) * random_value
