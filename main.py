@@ -1,17 +1,16 @@
 from simulation import simulator
 from utils import utils
+from typing import List
+import numpy as np
 import matplotlib.pyplot as plt
-import math
-
-fig = plt.figure()
-
-def func(n):
-    return math.log(n)
 
 def main():
     df: dict = utils.read_config('config.json')
     times: int = df['times']
     period: int = df['period']
+
+    prices = np.zeros((times, period))
+
     fig = plt.figure()
 
     print('Now simulating...')
@@ -28,9 +27,11 @@ def main():
             sim.calc_userbase_and_threshold(t)
             sim.calc_aggregate_transaction_need(t)
             sim.calc_price(t)
+        
+        prices[i] = sim.price
         plt.plot(sim.price)
 
-    # print(sim.price)
+    print(prices)
     plt.title('Utility Token Price Per Time Point')
     plt.xlabel('time')
     plt.ylabel('price')

@@ -7,6 +7,7 @@ import { OtherParams } from './params/OtherParams';
 import { PriceParams } from './params/PriceParams';
 import { ProductivityParams } from './params/ProductivityParams';
 import { UtilityParams } from './params/UtilityParams';
+import { TimesParams } from './params/TimesParams';
 import { Button, CircularProgress } from '@material-ui/core';
 import { formStyles } from '../Styles';
 import '../../App.css';
@@ -20,19 +21,19 @@ function Form(props) {
   });
 
   const [state, setState] = useState({
-    period: '100',
+    period: '365',
     agents: '1000',
     tokenSupply: '1000000000',
     beta: '0.3',
     chi: '1.0',
     freeRate: '0.05',
-    priceMu: '0.01',
-    priceSigma: '0.3', 
-    utiMu: '0.03',
-    utiSigma: '0.3', 
+    priceMu: '0.03',
+    utiMu: '1.0',
+    utiSigma: '10.0', 
     proIni: '100.0',
     proMu: '0.02',
-    proSigma: '1.0',
+    proSigma: '2.0',
+    times: '1',
     waiting: false
   });
 
@@ -50,13 +51,13 @@ function Form(props) {
         data: {
           period: parseInt(state.period),
           agents: parseInt(state.agents),
+          times: parseInt(state.times),
           beta: parseFloat(state.beta),
           chi: parseFloat(state.chi),
           interest_rate: parseFloat(state.freeRate),
           token_supply: parseInt(state.tokenSupply),
           price: {
-            mu: parseFloat(state.priceMu),
-            sigma: parseFloat(state.priceSigma)
+            mu: parseFloat(state.priceMu)
           }, 
           productivity: {
             initial_value: parseFloat(state.proIni),
@@ -74,11 +75,10 @@ function Form(props) {
         pathname: '/result',
         state: { prices: res.data.prices, img: res.data.img }
       });
-      console.log(res.data);
     } catch(err) {
       setState({ ...state, waiting: false });
       console.log(err);
-      window.alert('Error happened.')
+      window.alert('Error happened. Please try.')
     }
   }
 
@@ -104,12 +104,17 @@ function Form(props) {
       </div>
       <div className={classes.lower}>
         <PriceParams 
-          mu={state.priceMu} sigma={state.priceSigma}
+          mu={state.priceMu} 
           register={register} errors={errors}
           handleChange={handleChange} 
           />
         <UtilityParams 
           mu={state.utiMu} sigma={state.utiSigma} 
+          register={register} errors={errors}
+          handleChange={handleChange} 
+          />
+        <TimesParams 
+          times={state.times} 
           register={register} errors={errors}
           handleChange={handleChange} 
           />
