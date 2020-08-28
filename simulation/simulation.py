@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 def simulate(df: dict) -> List[List[float]]:
     times: int = df['times']
-    period: int = sim.df['period']
+    period: int = df['period']
 
     prices = np.zeros((times, period))
 

@@ -17,10 +17,9 @@ def handler():
     json_obj: dict = json.loads(json_str)
     print(json_obj)
 
-    print("Now computing...")
-    prices: List[float] = simulation.simulate(json_obj)
+    prices: List[List[float]] = simulation.simulate(json_obj)
 
-    enc_img = img_to_base64('img.png')
+    enc_img = img_to_base64('glaph.png')
 
     response = jsonify({
         'status': 'OK',
@@ -38,4 +37,4 @@ def img_to_base64(path):
         img_file.close()
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+    app.run(host='localhost')
