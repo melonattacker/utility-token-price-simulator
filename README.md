@@ -9,6 +9,7 @@
 ```
 $ git clone https://github.com/melonattacker/utility-token-price-simulator.git
 $ cd utility-token-price-simulator
+$ docker-compose build
 $ docker-compose up
 ```
 

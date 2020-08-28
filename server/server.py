@@ -37,4 +37,4 @@ def img_to_base64(path):
         img_file.close()
 
 if __name__ == "__main__":
-    app.run(host='localhost')
+    app.run(host='0.0.0.0')
