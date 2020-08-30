@@ -5,17 +5,17 @@
     "beta": 0.3,
     "chi": 1.0,
     "interest_rate": 0.05,
-    "token_supply": 1000000000,
+    "token_supply": 1500000000,
     "price": {
-        "mu": 0.03
+        "mu": 0.15
     },
     "productivity": {
         "initial_value": 100.0,
         "mu": 0.02,
-        "sigma": 2.0
+        "sigma": 1.0
     },
     "utility": {
         "mu": 1.0,
-        "sigma": 10.0
+        "sigma": 1.0
     }
 }
