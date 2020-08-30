@@ -30,6 +30,7 @@ $ docker-compose up
 ```
 $ git clone https://github.com/melonattacker/utility-token-price-simulator.git
 $ cd utility-token-price-simulator
+$ pip install -r requirements.txt
 ```
 
 ### Simulation
