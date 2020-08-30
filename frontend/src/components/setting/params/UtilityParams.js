@@ -19,8 +19,8 @@ export function UtilityParams(props) {
                                 inputRef={props.register({ 
                                     required: 'This field required.',
                                     pattern: {
-                                        value: /^[0-9]+[.][0-9]+$/,
-                                        message: 'This field must be float.'
+                                        value: /^[1-9][0-9]*[.][0-9]*|[0][.][1-9][0-9]*$/,
+                                        message: 'Must be float greater than 0.'
                                     } 
                                 })}
                             />  
@@ -46,8 +46,8 @@ export function UtilityParams(props) {
                                 inputRef={props.register({ 
                                     required: 'This field required.',
                                     pattern: {
-                                        value: /^[0-9]+[.][0-9]+$/,
-                                        message: 'This field must be float.'
+                                        value: /^[1-9][0-9]*[.][0-9]*|[0][.][1-9][0-9]*$/,
+                                        message: 'Must be float greater than 0.'
                                     } 
                                 })}
                             />  

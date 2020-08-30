@@ -19,7 +19,6 @@ def validate(df: dict):
     if type(df['period']) != int:
         print('period parameter must be int.')
         isOk = False
-        
     elif df['period'] <= 0:
         print('period parameter must be greater than 0.')
         isOk = False

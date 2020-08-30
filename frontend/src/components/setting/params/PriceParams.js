@@ -21,7 +21,10 @@ export function PriceParams(props) {
                                     pattern: {
                                         value: /^[0-9]+[.][0-9]+$/,
                                         message: 'This field must be float.'
-                                    } 
+                                    },
+                                    validate: {
+                                        lessThanFreeRate: value => value < props.freeRate || 'Must be less than risk free rate.'
+                                    }
                                 })}
                             />  
                         )

@@ -19,7 +19,7 @@ export function BasicParams(props) {
                                 inputRef={props.register({ 
                                     required: 'This field required.',
                                     pattern: {
-                                        value: /^[0-9]{0,4}$/,
+                                        value: /^[1-9][0-9]{0,3}$/,
                                         message: 'This field must be 1-9999 int.'
                                     } 
                                 })}
@@ -46,7 +46,7 @@ export function BasicParams(props) {
                                 inputRef={props.register({ 
                                     required: 'This field required.',
                                     pattern: {
-                                        value: /^[0-9]{0,4}$/,
+                                        value: /^[1-9][0-9]{0,3}$/,
                                         message: 'This field must be 1-9999 int.'
                                     } 
                                 })}
@@ -73,8 +73,8 @@ export function BasicParams(props) {
                                 inputRef={props.register({ 
                                     required: 'This field required.',
                                     pattern: {
-                                        value: /^[0-9]{7,10}$/,
-                                        message: 'This field must be 7-9 digits int.'
+                                        value: /^[1-9][0-9]*$/,
+                                        message: 'This field must be int.'
                                     } 
                                 })}
                             />  
@@ -82,7 +82,7 @@ export function BasicParams(props) {
                     } else {
                         return (
                             <TextField 
-                                error name="tokenSupply" id="agents" label="Agents (int)" variant="outlined" 
+                                error name="tokenSupply" id="supply" label="Token Supply (int)" variant="outlined" 
                                 className={classes.text2} value={props.supply} onChange={props.handleChange}
                                 helperText={props.errors.tokenSupply.message}
                             />  

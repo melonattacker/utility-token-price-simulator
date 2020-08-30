@@ -19,8 +19,8 @@ export function OtherParams(props) {
                                 inputRef={props.register({ 
                                     required: 'This field required.',
                                     pattern: {
-                                        value: /^[0-9]+[.][0-9]+$/,
-                                        message: 'This field must be float.'
+                                        value: /^[0][.][1-9][0-9]*$/,
+                                        message: 'This field must be 0 - 1 float.'
                                     } 
                                 })}
                             />  
@@ -75,7 +75,10 @@ export function OtherParams(props) {
                                     pattern: {
                                         value: /^[0][.][0-9]+$/,
                                         message: 'This field must be float less than 1.'
-                                    } 
+                                    },
+                                    validate: {
+                                        greaterThanPriceMu: value => value > props.priceMu || 'Must be greater than price mu.'
+                                    }
                                 })}
                             />  
                         )
