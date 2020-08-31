@@ -56,7 +56,7 @@ Below is a description of the parameters.
 |token_supply | int | 1000000000 | Token supply amount (fixed). |
 |mu (price) | float | 0.03 | Expected rate of return. |
 |initial_value (productivity) | float | 100.0 | Initial value of productivity. |
-|mu (productivity) | float | 0.02 | Average of price. |
+|mu (productivity) | float | 0.02 | Average of productivity. |
 |sigma (productivity) | float | 2.0 | Standard deviation of productivity. |
 |mu (utility) | float | 1.0 | Average utility of agents. |
 |sigma (utility) | float | 10.0 | Standard deviation of the utility of the agents. |
