@@ -1,8 +1,6 @@
 # Utility Token Price Simulator
 Utility Token Price Simulator is a simulator that simulates general token price when setting parameters. <br/> It is implemented based on the theory of "[Tokenomics: Dynamic Adoption and Valuation](https://bfi.uchicago.edu/wp-content/uploads/WP_2018-49.pdf)". <br/> CUI mode or GUI mode can be used.  
 
-> Note that it doesn't simulate the price of any particular token!
-
 ## GUI mode
 ### Prerequisites
 - docker
