@@ -63,7 +63,7 @@ class Simulator:
         dt: float = 1.0 / period
 
         # generate initial utility of agents
-        ini_util_generator = generator.initial_utility_gen(momtype=0, a=-20.0, b=20.0)
+        ini_util_generator = generator.initial_utility_gen(momtype=0, a=-100.0, b=100.0)
         self.utilities[0] = ini_util_generator.rvs(mu=utility_mu, sigma=utility_sigma, size=agents)
 
         # generate utility of agents
@@ -78,13 +78,13 @@ class Simulator:
             utility_mu: float = self.df['utility']['mu']
             utility_sigma: float = self.df['utility']['sigma']
             theta: float = utility_sigma / np.sqrt(2 * utility_mu)
-            y = lambda u: 0.0 if u < -20 or u > 20 else np.exp(u) * np.sqrt(1 / (2 * np.pi * theta ** 2)) * np.exp(- u ** 2 / (2 * theta ** 2))
+            y = lambda u: 0.0 if u < -100 or u > 100 else np.exp(u) * np.sqrt(1 / (2 * np.pi * theta ** 2)) * np.exp(- u ** 2 / (2 * theta ** 2))
             need, err = integrate.quad(y, threshold, np.inf)
             self.need[t] = need
         else:
             kde_instance = gaussian_kde(self.utilities[t].tolist())
             # avoid exp overflow
-            y = lambda u: 0.0 if u < -20 or u > 20 else np.exp(u) * kde_instance.pdf(u)
+            y = lambda u: 0.0 if u < -100 or u > 100 else np.exp(u) * kde_instance.pdf(u)
             need, err = integrate.quad(y, threshold, np.inf)
             self.need[t] = need
 
