@@ -92,7 +92,7 @@ function Form(props) {
           handleChange={handleChange} 
           />
         <OtherParams 
-          beta={state.beta} chi={state.chi} rate={state.freeRate} 
+          beta={state.beta} chi={state.chi} rate={state.freeRate} priceMu={state.priceMu}
           register={register} errors={errors}
           handleChange={handleChange} 
           />
@@ -104,7 +104,7 @@ function Form(props) {
       </div>
       <div className={classes.lower}>
         <PriceParams 
-          mu={state.priceMu} 
+          mu={state.priceMu} freeRate={state.freeRate} 
           register={register} errors={errors}
           handleChange={handleChange} 
           />

@@ -19,7 +19,6 @@ def validate(df: dict):
     if type(df['period']) != int:
         print('period parameter must be int.')
         isOk = False
-        
     elif df['period'] <= 0:
         print('period parameter must be greater than 0.')
         isOk = False
@@ -39,7 +38,10 @@ def validate(df: dict):
         isOk = False
 
     if type(df['beta']) != float:
-        print('times parameter must be float.')
+        print('beta parameter must be float.')
+        isOk = False
+    elif df['beta'] >= 1.0:
+        print('beta parameter must be less than 1.0.')
         isOk = False
 
     if type(df['chi']) != float:
@@ -90,6 +92,10 @@ def validate(df: dict):
         print('utility sigma parameter must be greater than 0.')
         isOk = False
 
+    if df['interest_rate'] < df['price']['mu']:
+        print('risk free rate must be less than expected rate of return under the risk-neutral measure.')
+        isOk = False
+    
     if isOk == True:
         return
     else:
