@@ -14,12 +14,19 @@ Utility Token Price Simulator is a simulator that simulates general token price 
 $ git clone https://github.com/melonattacker/utility-token-price-simulator.git
 $ cd utility-token-price-simulator
 $ docker-compose build
-$ docker-compose up
+$ docker-compose up  # may take some time...
 ```
 
 ### Simulation
 - Access `http://localhost:3000` through a browser.
 - Set the parameters and simulate.
+
+### Clean Up
+After the simulation, you should remove containers with the command below.
+
+```
+$ docker-compose down
+```
 
 ## CUI mode 
 ### Prerequisites
